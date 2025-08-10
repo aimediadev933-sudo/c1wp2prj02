@@ -1,1 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintaining Campus Network Workshop - WP2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary-color: #F28C28;
+            --secondary-color: #E88C2D;
+            --body-color: #FCF5EC;
+            --text-color: #1D1D1B;
+            --secondary-dark: #9F4B14;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--body-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .call-badge {
+            display: inline-block;
+            background: var(--secondary-dark);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        /* Partners Section */
+        .partners {
+            background: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .partners h2 {
+            color: var(--secondary-dark);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .partner-logos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .partner-logo {
+            padding: 1rem;
+            background: var(--body-color);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .partner-logo:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .partner-logo img {
+            max-width: 100%;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 0;
+        }
+
+        .section {
+            background: var(--white);
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .section h2 {
+            color: var(--secondary-dark);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        .section h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--body-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--white);
+            box-shadow: 0 5px 15px rgba(242, 140, 40, 0.2);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--body-color);
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .country-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .country-badge {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .sdg-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .sdg-badge {
+            background: var(--secondary-dark);
+            color: var(--white);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .partner-logos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .partner-logos {
+                grid-template-columns: 1fr;
+            }
+            
+            .country-info {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Maintaining Campus Network</h1>
+                <p class="subtitle">Professional Development Workshop</p>
+                <div class="call-badge">1st Call - WP2</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Partners Section -->
+    <section class="partners">
+        <div class="container">
+            <h2>Partner Organizations</h2>
+            <div class="partner-logos">
+                <div class="partner-logo">
+                    <img src="images/logos/tein-logo.png" alt="TEIN*CC Logo">
+                </div>
+                <div class="partner-logo">
+                    <img src="images/logos/asi-connect-logo.png" alt="Asi@Connect Logo">
+                </div>
+                <div class="partner-logo">
+                    <img src="images/logos/eu-logo.png" alt="European Union Logo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Overview Section -->
+            <section class="section">
+                <h2>Workshop Overview</h2>
+                <p>The "Maintaining Campus Network" workshop aimed to strengthen the skills of network professionals from Bangladeshi and regional universities in designing, managing, and troubleshooting campus networks. Organized by PSTU in collaboration with BdREN and supported by Asi@Connect, the five-day workshop included technical lectures, hands-on labs, and field visits.</p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Days Training</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">27</span>
+                        <span class="stat-label">Participants</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
+                </div>
+
+                <div class="country-info">
+                    <div class="country-badge">🇧🇩 Bangladesh (Primary)</div>
+                    <div class="country-badge">🇱🇰 Sri Lanka</div>
+                </div>
+            </section>
+
+            <!-- Objectives Section -->
+            <section class="section">
+                <h2>Project Objectives</h2>
+                <div class="highlight-box">
+                    <h3>Primary Goal</h3>
+                    <p>To build the capacity of network professionals to manage, monitor, and secure university campus networks effectively.</p>
+                </div>
+
+                <h3>Sub-objectives</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Infrastructure Training</h4>
+                        <p>Deliver comprehensive training on design and maintenance of network infrastructure</p>
+                    </div>
+                    <div class="card">
+                        <h4>Technical Skills</h4>
+                        <p>Improve understanding of BGP routing, VLANs, firewall and security, network servers, wireless LAN, and Radius server authentication</p>
+                    </div>
+                    <div class="card">
+                        <h4>Hands-on Experience</h4>
+                        <p>Provide practical experience with monitoring tools like LibreNMS and NetFlow</p>
+                    </div>
+                    <div class="card">
+                        <h4>Regional Collaboration</h4>
+                        <p>Support regional knowledge exchange and collaboration among network professionals</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activities Section -->
+            <section class="section">
+                <h2>Activities Conducted</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎓 Technical Training</h4>
+                        <p><strong>Duration:</strong> 5 days<br>
+                        Sessions covered network design, routing (OSPF), VLANs, NAT, firewalls, monitoring, Linux-based tools, and documentation practices.</p>
+                    </div>
+                    <div class="card">
+                        <h4>🔬 Hands-On Labs</h4>
+                        <p>Practical exercises including OSPF routing, VLAN configuration, firewall setup, NAT translation, and LibreNMS monitoring.</p>
+                    </div>
+                    <div class="card">
+                        <h4>🏛️ Technical Visit</h4>
+                        <p>Tour of SEA-ME-WE 5 (SMW5) submarine cable landing station to enhance understanding of core internet infrastructure.</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎊 Cultural Activities</h4>
+                        <p>Cultural night and social dinner fostered community engagement and cultural exchange among participants.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Outcomes Section -->
+            <section class="section">
+                <h2>Key Outcomes</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h4>✅ Enhanced Network Competencies</h4>
+                        <p>Participants developed practical skills in managing routing, VLANs, NAT, and firewalls</p>
+                    </div>
+                    <div class="card">
+                        <h4>🔧 Monitoring Tools Mastery</h4>
+                        <p>Participants trained in LibreNMS, NetFlow, and RANCID, improving monitoring capabilities</p>
+                    </div>
+                    <div class="card">
+                        <h4>🤝 Collaboration Network</h4>
+                        <p>Participants formed an online group to share knowledge and troubleshoot network issues</p>
+                    </div>
+                    <div class="card">
+                        <h4>🏫 Institutional Application</h4>
+                        <p>Skills are directly transferable for improving campus IT infrastructure</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Challenges and Future Directions -->
+            <section class="section">
+                <h2>Challenges & Future Directions</h2>
+                <div class="grid">
+                    <div class="card" style="border-left-color: #e74c3c;">
+                        <h4>⚠️ Challenges Identified</h4>
+                        <p><strong>International Participation:</strong> Not all expected overseas participants could attend due to illness and time constraints</p>
+                        <p><strong>Time Constraints:</strong> Workshop duration was insufficient for deeper exploration of complex technical areas</p>
+                    </div>
+                    <div class="card" style="border-left-color: #27ae60;">
+                        <h4>🚀 Future Directions</h4>
+                        <p><strong>Annual Training:</strong> Organize yearly workshops with broader topics and more international participation</p>
+                        <p><strong>Advanced Modules:</strong> Develop follow-up workshops on advanced routing, cybersecurity, and NOC operations</p>
+                        <p><strong>Infrastructure Expansion:</strong> Offer additional lab equipment and simulation tools</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SDGs Section -->
+            <section class="section">
+                <h2>Sustainable Development Goals</h2>
+                <p>This workshop contributes to the following UN Sustainable Development Goals:</p>
+                <div class="sdg-badges">
+                    <div class="sdg-badge">SDG 4 - Quality Education</div>
+                    <div class="sdg-badge">SDG 9 - Industry, Innovation and Infrastructure</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Campus Network Maintenance Workshop. Supported by Asi@Connect and the European Union.</p>
+            <p>Organized by PSTU in collaboration with BdREN</p>
+        </div>
+    </footer>
+</body>
+</html>
